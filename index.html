@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CVNova — Build a Professional CV in Minutes</title>
+<link rel="icon" href="logo.png">
+<style>
+/* ============ DESIGN SYSTEM (CVNova Blue Theme) ============ */
+:root{
+  --gold:#0070D0;
+  --gold-2:#0090F0;
+  --gold-light:#7CC4FF;
+  --gold-dark:#0060C0;
+  --gold-deep:#003060;
+  --ink:#001A35;
+  --ink-2:#0B2A4D;
+  --ink-3:#1E4368;
+  --cream:#F0F5FA;
+  --cream-2:#DCE8F5;
+  --paper:#FFFFFF;
+  --line:#D5E2F0;
+  --muted:#5C7390;
+  --shadow:0 12px 34px rgba(0,48,96,.10);
+  --shadow-sm:0 4px 14px rgba(0,48,96,.08);
+  --radius:16px;
+  --font-sans:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  --font-serif:Georgia,"Times New Roman",serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-sans);color:var(--ink);background:var(--cream);line-height:1.6}
+a{text-decoration:none;color:inherit}
+img{max-width:100%}
+.container{max-width:1180px;margin:0 auto;padding:0 24px}
+.page{display:none}
+.page.active{display:block;animation:fadeUp .45s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* ============ BUTTONS ============ */
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:15px;padding:13px 26px;border-radius:12px;border:2px solid transparent;cursor:pointer;transition:all .2s ease;font-family:var(--font-sans)}
+.btn-gold{background:linear-gradient(135deg,var(--gold-2),var(--gold) 55%,var(--gold-dark));color:#FFFFFF;box-shadow:0 8px 20px rgba(0,96,192,.35)}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(0,96,192,.45)}
+.btn-dark{background:var(--ink);color:var(--gold-2);border-color:var(--ink)}
+.btn-dark:hover{background:#0B2A4D;transform:translateY(-2px)}
+.btn-ghost{background:transparent;color:var(--ink);border-color:#D8CCAA}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold-deep);background:#fff}
+.btn-sm{padding:9px 18px;font-size:13.5px;border-radius:10px}
+
+/* ============ NAVBAR ============ */
+.navbar{position:sticky;top:0;z-index:100;background:rgba(251,246,231,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:94px}
+.brand{display:flex;align-items:center;gap:13px;font-weight:800;font-size:26px;letter-spacing:-.3px}
+.brand .logo-mark{width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,var(--gold-2),var(--gold) 55%,var(--gold-dark));display:grid;place-items:center;box-shadow:0 4px 12px rgba(0,96,192,.35)}
+.brand .logo-mark svg{width:22px;height:22px}
+.brand .logo-mark path{stroke:#FFFFFF}
+.brand em{color:var(--gold-dark);font-style:normal}
+.nav-links{display:flex;gap:30px;font-weight:600;font-size:15px}
+.nav-links a{color:var(--ink-3);position:relative;padding:6px 0;transition:color .2s}
+.nav-links a:hover{color:var(--gold-deep)}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--gold);transition:width .25s}
+.nav-links a:hover::after{width:100%}
+.nav-cta{display:flex;gap:12px;align-items:center}
+.burger{display:none;background:none;border:none;cursor:pointer;padding:6px}
+.burger span{display:block;width:24px;height:2.5px;background:var(--ink);margin:5px 0;border-radius:2px}
+
+/* ============ HERO ============ */
+.hero{background:radial-gradient(1100px 500px at 85% -10%,rgba(0,112,208,.22),transparent 60%),var(--cream);padding:86px 0 70px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;width:560px;height:560px;border-radius:50%;border:60px solid rgba(0,112,208,.07);top:-240px;right:-160px}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+.badge{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);color:var(--gold-deep);font-weight:700;font-size:13px;padding:7px 16px;border-radius:100px;box-shadow:var(--shadow-sm)}
+.badge .dot{width:8px;height:8px;border-radius:50%;background:var(--gold);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,112,208,.5)}50%{box-shadow:0 0 0 7px rgba(0,112,208,0)}}
+.hero h1{font-size:54px;line-height:1.12;letter-spacing:-1.5px;margin:22px 0 18px;font-weight:800}
+.hero h1 .hl{color:var(--gold-dark);position:relative;white-space:nowrap}
+.hero h1 .hl svg{position:absolute;left:0;bottom:-8px;width:100%;height:12px}
+.hero p.lead{font-size:18px;color:var(--muted);max-width:520px;margin-bottom:30px}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:34px}
+.hero-stats{display:flex;gap:38px}
+.hero-stats .stat b{font-size:26px;color:var(--gold-dark);display:block;line-height:1.2}
+.hero-stats .stat span{font-size:13.5px;color:var(--muted);font-weight:600}
+
+/* Hero CV mockup */
+.mock-wrap{position:relative}
+.mock-glow{position:absolute;inset:-30px;background:radial-gradient(closest-side,rgba(0,112,208,.28),transparent);filter:blur(10px);z-index:0}
+.mock{position:relative;z-index:1;background:var(--paper);border-radius:14px;box-shadow:var(--shadow);border:1px solid var(--line);padding:34px 30px;transform:rotate(1.2deg);max-width:420px;margin-left:auto}
+.mock .m-name{font-size:26px;font-weight:800;letter-spacing:.5px;color:#1c1608}
+.mock .m-title{color:var(--gold-deep);font-weight:700;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;margin:4px 0 14px}
+.mock .m-line{height:2px;background:linear-gradient(90deg,var(--gold),transparent);border-radius:2px;margin-bottom:16px}
+.mock .m-sec{font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--gold-deep);margin:14px 0 8px}
+.mock .m-row{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:9px;color:var(--ink-2)}
+.mock .m-row b{font-size:12.5px}
+.mock .m-pill{display:inline-block;background:var(--cream-2);border:1px solid var(--line);border-radius:100px;font-size:10.5px;font-weight:600;padding:3px 10px;margin:3px 4px 0 0;color:var(--ink-2)}
+.mock-badge{position:absolute;z-index:2;background:var(--ink);color:var(--gold-2);font-size:12px;font-weight:700;padding:9px 16px;border-radius:10px;box-shadow:var(--shadow-sm);display:flex;gap:8px;align-items:center}
+.mock-badge.b1{top:-18px;right:-8px;transform:rotate(3deg)}
+.mock-badge.b2{bottom:-16px;left:-14px;background:#fff;color:var(--gold-deep);border:1px solid var(--line);transform:rotate(-2deg)}
+
+/* ============ LOGO STRIP ============ */
+.strip{background:var(--ink);color:#6E87A5;padding:22px 0;text-align:center;font-size:14px;letter-spacing:2.5px;text-transform:uppercase;font-weight:700}
+.strip span{display:inline-block;margin:0 26px;color:var(--gold-2);opacity:.9}
+
+/* ============ SECTIONS ============ */
+.section{padding:84px 0}
+.section.alt{background:var(--paper)}
+.section.dark{background:var(--ink);color:#f0e8cf}
+.sec-head{text-align:center;max-width:660px;margin:0 auto 54px}
+.sec-head .kicker{display:inline-block;font-size:12.5px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold-dark);background:rgba(0,112,208,.12);padding:7px 16px;border-radius:100px;margin-bottom:16px}
+.sec-head h2{font-size:38px;letter-spacing:-1px;line-height:1.2;margin-bottom:12px}
+.sec-head p{color:var(--muted);font-size:16.5px}
+.section.dark .sec-head p{color:#8FA8C2}
+.section.dark .kicker{color:var(--gold-2);background:rgba(0,144,240,.12)}
+
+/* ============ FEATURES ============ */
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.feature{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:30px 26px;transition:all .25s;position:relative;overflow:hidden}
+.feature::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-light));opacity:0;transition:opacity .25s}
+.feature:hover{transform:translateY(-6px);box-shadow:var(--shadow)}
+.feature:hover::before{opacity:1}
+.feature .f-icon{width:52px;height:52px;border-radius:13px;background:linear-gradient(135deg,rgba(0,112,208,.16),rgba(0,112,208,.05));display:grid;place-items:center;margin-bottom:18px;color:var(--gold-deep)}
+.feature .f-icon svg{width:26px;height:26px}
+.feature h3{font-size:18.5px;margin-bottom:8px;letter-spacing:-.2px}
+.feature p{color:var(--muted);font-size:14.5px}
+
+/* ============ TEMPLATE CARDS ============ */
+.tpl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.tpl-card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;transition:all .25s;box-shadow:var(--shadow-sm)}
+.tpl-card:hover{transform:translateY(-8px);box-shadow:var(--shadow);border-color:var(--gold)}
+.tpl-shot{height:430px;overflow:hidden;background:#E2EAF4;position:relative;display:grid;place-items:center;cursor:pointer}
+.tpl-shot .scale{transform-origin:top left;transition:transform .3s}
+.tpl-card:hover .scale{transform:scale(1.02)}
+.tpl-meta{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-top:1px solid var(--line)}
+.tpl-meta .t-name{font-weight:800;font-size:16px}
+.tpl-meta .t-tag{font-size:12px;color:var(--gold-deep);font-weight:700;background:rgba(0,112,208,.12);padding:4px 10px;border-radius:100px}
+.tpl-meta .use{font-size:13.5px;font-weight:700;color:var(--gold-dark)}
+.tpl-meta .use:hover{color:var(--gold-deep);text-decoration:underline}
+
+/* ============ STEPS ============ */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;counter-reset:step}
+.step{background:rgba(255,255,255,.04);border:1px solid rgba(0,144,240,.18);border-radius:var(--radius);padding:30px 26px;position:relative}
+.step .num{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--gold-2),var(--gold-dark));color:#FFFFFF;font-weight:800;font-size:18px;display:grid;place-items:center;margin-bottom:16px}
+.step h3{color:var(--gold-2);font-size:18px;margin-bottom:8px}
+.step p{color:#8FA8C2;font-size:14.5px}
+
+/* ============ TESTIMONIALS ============ */
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.testi{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:28px}
+.testi .stars{color:var(--gold);font-size:15px;letter-spacing:3px;margin-bottom:14px}
+.testi p{color:var(--ink-3);font-size:15px;font-style:italic;margin-bottom:18px}
+.testi .who{display:flex;align-items:center;gap:12px}
+.testi .av{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--gold-2),var(--gold-dark));display:grid;place-items:center;color:#FFFFFF;font-weight:800;font-size:16px}
+.testi .who b{display:block;font-size:14.5px}
+.testi .who span{font-size:12.5px;color:var(--muted)}
+
+/* ============ PRICING ============ */
+.price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px;align-items:stretch}
+.price-card{background:rgba(255,255,255,.04);border:1px solid rgba(0,144,240,.18);border-radius:var(--radius);padding:34px 28px;position:relative;transition:all .25s}
+.price-card.featured{background:linear-gradient(160deg,rgba(0,144,240,.14),rgba(0,144,240,.03));border-color:var(--gold);box-shadow:0 0 0 3px rgba(0,112,208,.15)}
+.price-card:hover{transform:translateY(-6px)}
+.price-card .p-name{font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--gold-2)}
+.price-card .p-price{font-size:42px;font-weight:800;color:#E2EEFB;margin:12px 0 4px}
+.price-card .p-price small{font-size:15px;color:#8FA8C2;font-weight:600}
+.price-card .p-desc{font-size:14px;color:#8FA8C2;margin-bottom:22px}
+.price-card ul{list-style:none;margin-bottom:26px}
+.price-card li{font-size:14px;color:#B8CBE0;padding:7px 0 7px 28px;position:relative}
+.price-card li::before{content:"✓";position:absolute;left:0;color:var(--gold-2);font-weight:800}
+.price-card .btn{width:100%;justify-content:center}
+.pop{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--gold);color:#FFFFFF;font-size:11.5px;font-weight:800;letter-spacing:1px;padding:6px 14px;border-radius:100px;text-transform:uppercase}
+
+/* ============ FOOTER ============ */
+footer{background:#00122A;color:#8FA8C2;padding:56px 0 30px}
+.foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.2fr;gap:40px;margin-bottom:40px}
+footer h4{color:var(--gold-2);font-size:14px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px}
+footer a{display:block;color:#8FA8C2;font-size:14px;padding:5px 0;transition:color .2s}
+footer a:hover{color:var(--gold-2)}
+.foot-brand p{font-size:14px;margin-top:14px;max-width:300px}
+.foot-bottom{border-top:1px solid rgba(0,144,240,.15);padding-top:22px;display:flex;justify-content:space-between;font-size:13px;flex-wrap:wrap;gap:10px}
+.social{display:flex;gap:10px;margin-top:16px}
+.social a{width:38px;height:38px;border-radius:10px;background:rgba(0,144,240,.1);display:grid;place-items:center;padding:0}
+.social a:hover{background:rgba(0,144,240,.22)}
+
+/* ============ TEMPLATES PAGE ============ */
+.tpl-hero{background:var(--ink);color:#f0e8cf;padding:64px 0;text-align:center}
+.tpl-hero h1{font-size:42px;letter-spacing:-1px;margin-bottom:10px}
+.tpl-hero h1 em{color:var(--gold-2);font-style:normal}
+.tpl-hero p{color:#8FA8C2;max-width:560px;margin:0 auto}
+.tpl-page-grid{grid-template-columns:repeat(2,1fr)}
+.tpl-card.big .tpl-shot{height:540px}
+
+/* ============ EDITOR PAGE ============ */
+.editor{display:grid;grid-template-columns:420px 1fr;min-height:calc(100vh - 72px);background:var(--paper)}
+.ed-form{padding:30px 28px;overflow-y:auto;background:var(--cream);border-right:1px solid var(--line);max-height:calc(100vh - 72px)}
+.ed-form h2{font-size:21px;margin-bottom:4px}
+.ed-form .sub{font-size:13.5px;color:var(--muted);margin-bottom:22px}
+.form-group{margin-bottom:18px}
+.form-group label{display:block;font-size:13px;font-weight:700;margin-bottom:6px;color:var(--ink-2)}
+.form-group .req{color:var(--gold-dark)}
+.form-group input,.form-group textarea{width:100%;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;font-size:14px;background:#fff;color:var(--ink);font-family:var(--font-sans);transition:border .2s,box-shadow .2s}
+.form-group input:focus,.form-group textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(0,112,208,.15)}
+.form-group textarea{min-height:90px;resize:vertical}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.form-sec{font-size:12.5px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--gold-dark);margin:26px 0 16px;padding-bottom:8px;border-bottom:2px solid var(--gold-light)}
+.rep{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:14px;position:relative}
+.rep .del{position:absolute;top:10px;right:10px;width:28px;height:28px;border-radius:8px;border:1px solid #ecc9c9;background:#fdf1f1;color:#b3261e;font-weight:800;cursor:pointer;font-size:14px;line-height:1}
+.rep .del:hover{background:#fbe3e3}
+.rep .form-group{margin-bottom:12px}
+.add-btn{width:100%;padding:11px;border:1.5px dashed var(--gold);background:rgba(0,112,208,.06);color:var(--gold-deep);font-weight:700;font-size:13.5px;border-radius:10px;cursor:pointer;transition:all .2s;font-family:var(--font-sans)}
+.add-btn:hover{background:rgba(0,112,208,.14)}
+.skill-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.skill-tag{background:linear-gradient(135deg,rgba(0,112,208,.14),rgba(0,112,208,.06));border:1px solid var(--gold-light);color:var(--gold-deep);font-size:12.5px;font-weight:700;padding:5px 12px;border-radius:100px;display:inline-flex;align-items:center;gap:6px}
+.skill-tag button{background:none;border:none;color:var(--gold-dark);cursor:pointer;font-size:13px;font-weight:800}
+.skill-input-row{display:flex;gap:8px}
+.skill-input-row input{flex:1}
+.ed-actions{display:flex;gap:10px;margin-top:26px;position:sticky;bottom:0;background:var(--cream);padding-top:14px}
+
+/* Preview pane */
+.ed-preview{padding:30px;overflow-y:auto;max-height:calc(100vh - 72px);background:linear-gradient(180deg,#E4ECF5,#DCE6F2)}
+.pv-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;max-width:794px;margin-left:auto;margin-right:auto}
+.pv-top h3{font-size:17px}
+.pv-tpls{display:flex;gap:8px;flex-wrap:wrap}
+.pv-tpl{font-size:12px;font-weight:700;padding:7px 14px;border-radius:100px;border:1.5px solid #cdbf95;background:#fff;color:var(--ink-3);cursor:pointer;transition:all .2s}
+.pv-tpl:hover{border-color:var(--gold);color:var(--gold-deep)}
+.pv-tpl.active{background:var(--ink);border-color:var(--ink);color:var(--gold-2)}
+.pv-zoom{zoom:1;transform-origin:top center;text-align:center}
+.pv-page{width:794px;min-height:1123px;background:#fff;margin:0 auto;box-shadow:var(--shadow);border-radius:6px;transform-origin:top center}
+.pv-controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pv-fit{font-size:12px;font-weight:700;padding:6px 13px;border-radius:100px;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.pv-fit.fit-ok{background:#e9f7ec;color:#1a7f37;border:1px solid #b7e3c0}
+.pv-fit.fit-warn{background:#fdf0e2;color:#b45309;border:1px solid #f2d3a8}
+.pv-zoom-select{font-size:12px;font-weight:600;padding:7px 10px;border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink-3);cursor:pointer;font-family:var(--font-sans)}
+.pv-page.print-zone{margin:0;box-shadow:none}
+.empty-cv{display:grid;place-items:center;min-height:500px;color:var(--muted);text-align:center;font-size:15px}
+
+/* ============ CV TEMPLATES (rendered) ============ */
+.cv{font-size:13px;color:#2a2418;line-height:1.55;padding:38px 42px;font-family:var(--font-sans)}
+.cv .cv-name{font-size:30px;font-weight:800;letter-spacing:.5px;color:#191407}
+.cv .cv-title{font-size:13.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase}
+.cv .cv-contact{font-size:12px;color:#5c5440;margin-top:10px;display:flex;flex-wrap:wrap;gap:6px 14px}
+.cv .cv-sec{margin-top:17px;break-inside:avoid}
+.cv .cv-sec-h{font-size:12px;font-weight:800;letter-spacing:2.2px;text-transform:uppercase;color:#0060C0;border-bottom:2px solid #66B2FF;padding-bottom:4px;margin-bottom:9px;display:flex;align-items:center;gap:8px}
+.cv .cv-sec-h::before{content:"";width:7px;height:7px;background:#0070D0;transform:rotate(45deg);display:inline-block}
+.cv .cv-skill{display:inline-block;background:#E8F3FF;border:1px solid #66B2FF;color:#0050A0;font-size:11.5px;font-weight:600;border-radius:100px;padding:3px 11px;margin:0 5px 6px 0}
+.cv .exp{border-left:2px solid #66B2FF;padding-left:16px;margin-left:4px}
+.cv .exp-item{position:relative;padding-bottom:9px;break-inside:avoid}
+.cv .exp-item::before{content:"";position:absolute;left:-21px;top:5px;width:8px;height:8px;border-radius:50%;background:#0070D0;border:2px solid #fff;box-shadow:0 0 0 2px #66B2FF}
+.cv .exp-item .j{font-weight:700;font-size:14px;color:#191407}
+.cv .exp-item .c{font-weight:600;color:#0060C0;font-size:12.5px}
+.cv .exp-item .d{color:#6b6350;font-size:12px;float:right;font-weight:600}
+.cv .exp-item p{color:#4a4433;font-size:12px;margin-top:3px}
+
+/* T1 Classic */
+.cv.t1{font-family:var(--font-serif)}
+.cv.t1 .t1-head{text-align:center;border-bottom:3px double #0070D0;padding-bottom:16px;margin-bottom:6px}
+.cv.t1 .cv-name{font-family:var(--font-serif);font-size:32px;letter-spacing:2px;text-transform:uppercase}
+.cv.t1 .cv-title{color:#0050A0;letter-spacing:3px;font-size:12px;margin-top:5px}
+.cv.t1 .cv-contact{justify-content:center;font-family:var(--font-sans)}
+.cv.t1 .cv-sec-h{border-bottom:none;border-top:1px solid #0070D0;padding-top:8px;justify-content:center}
+.cv.t1 .cv-sec-h::before{display:none}
+
+/* T2 Modern */
+.cv.t2{display:flex;padding:0;font-family:var(--font-sans)}
+.cv.t2{min-height:1123px}
+.cv.t2 .side{width:200px;background:#001A35;color:#B8CBE0;padding:24px 18px;flex-shrink:0}
+.cv.t2 .side .avatar{width:84px;height:84px;border-radius:50%;background:linear-gradient(135deg,#0090F0,#0060C0);display:grid;place-items:center;font-size:30px;font-weight:800;color:#001A35;margin:0 auto 18px;border:3px solid rgba(0,144,240,.5)}
+.cv.t2 .side h4{color:#0090F0;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin:20px 0 10px;border-bottom:1px solid rgba(0,144,240,.3);padding-bottom:6px}
+.cv.t2 .side .cnt{font-size:11.5px;color:#8FA8C2;word-break:break-word}
+.cv.t2 .side .cnt div{margin-bottom:7px}
+.cv.t2 .side .bar{height:5px;background:rgba(0,144,240,.18);border-radius:3px;margin:3px 0 9px;overflow:hidden}
+.cv.t2 .side .bar i{display:block;height:100%;background:linear-gradient(90deg,#0090F0,#0070D0);border-radius:3px}
+.cv.t2 .main{flex:1;padding:24px 26px}
+.cv.t2 .cv-name{font-size:25px}
+.cv.t2 .cv-title{color:#0060C0}
+.cv.t2 .cv-sec-h{color:#001A35}
+.cv.t2 .cv-sec-h::before{background:#001A35}
+
+/* T3 Minimal */
+.cv.t3{font-family:var(--font-sans)}
+.cv.t3 .cv-name{font-size:34px;letter-spacing:-.5px;font-weight:700}
+.cv.t3 .cv-title{color:#8f8f8f;font-weight:600;letter-spacing:1.5px;font-size:13px}
+.cv.t3 .cv-contact{border-top:1px solid #e5e5e5;border-bottom:1px solid #e5e5e5;padding:9px 0;font-size:11.5px}
+.cv.t3 .cv-sec-h{color:#222;border-bottom:none;letter-spacing:3px;padding-bottom:0;text-transform:uppercase;font-size:11px}
+.cv.t3 .cv-sec-h::before{display:none}
+.cv.t3 .exp{border-left:none;padding-left:0;margin-left:0}
+.cv.t3 .exp-item{border-bottom:1px dashed #e0e0e0}
+.cv.t3 .exp-item::before{display:none}
+
+/* T4 Creative */
+.cv.t4{padding:0;font-family:var(--font-sans);position:relative}
+.cv.t4 .t4-band{background:linear-gradient(120deg,#001A35 0%,#0B2A4D 55%,#0060C0 130%);color:#D8E6F5;padding:24px 40px 66px;position:relative;overflow:hidden}
+.cv.t4 .t4-band::after{content:"";position:absolute;left:0;right:0;bottom:-40px;height:90px;background:#fff;clip-path:polygon(0 0,100% 70%,100% 100%,0 100%)}
+.cv.t4 .t4-band .cv-name{color:#fff;font-size:32px}
+.cv.t4 .t4-band .cv-title{color:#0090F0}
+.cv.t4 .t4-body{display:flex;gap:26px;padding:10px 40px 28px}
+.cv.t4 .t4-left{flex:1}
+.cv.t4 .t4-right{width:210px;background:#EFF6FF;border:1px solid #C4DFFF;border-radius:12px;padding:20px;height:fit-content}
+.cv.t4 .t4-right h4{color:#0050A0;font-size:11px;letter-spacing:2px;text-transform:uppercase;margin:14px 0 8px}
+.cv.t4 .t4-right h4:first-child{margin-top:0}
+.cv.t4 .cv-contact{color:#8FA8C2}
+
+/* T5 Elegant */
+.cv.t5{font-family:var(--font-serif);padding:50px 56px;text-align:center}
+.cv.t5 .mono{width:74px;height:74px;border-radius:50%;border:2px solid #0070D0;display:grid;place-items:center;margin:0 auto 18px;font-size:28px;color:#0050A0;font-weight:700;letter-spacing:1px}
+.cv.t5 .cv-name{font-size:34px;letter-spacing:6px;text-transform:uppercase}
+.cv.t5 .cv-title{color:#0050A0;letter-spacing:4px;font-size:12px;margin-top:6px}
+.cv.t5 .cv-contact{justify-content:center;letter-spacing:1px}
+.cv.t5 .t5-rule{width:90px;height:2px;background:#0070D0;margin:16px auto}
+.cv.t5 .cv-sec-h{border-bottom:none;justify-content:center;letter-spacing:4px;color:#0050A0}
+.cv.t5 .cv-sec-h::before{display:none}
+.cv.t5 .exp{border-left:none;padding:0;margin:0}
+.cv.t5 .exp-item::before{display:none}
+.cv.t5 .exp-item{border-bottom:1px solid #DCE8F5;padding-bottom:12px;margin-bottom:6px}
+
+/* ============ PRINT ============ */
+@media print{
+  body *{visibility:hidden}
+  .pv-page,.pv-page *{visibility:visible}
+  .pv-page{position:absolute;left:0;top:0;width:210mm;min-height:296mm;box-shadow:none;margin:0;border-radius:0}
+  .pv-zoom{zoom:1!important}
+  .ed-preview{padding:0;background:#fff;max-height:none}
+  .ed-form,.pv-top,.navbar,.pv-controls{display:none!important}
+}
+@page{size:A4;margin:0}
+
+/* ============ RESPONSIVE ============ */
+@media(max-width:1024px){
+  .hero h1{font-size:42px}
+  .tpl-grid{grid-template-columns:repeat(2,1fr)}
+  .editor{grid-template-columns:1fr}
+  .ed-form,.ed-preview{max-height:none;overflow:visible}
+  .pv-page{width:100%;min-height:auto}
+  .foot-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  .nav-links,.nav-cta .btn:not(.menu-btn){display:none}
+  .burger{display:block}
+  .hero-grid,.features,.steps,.testi-grid,.price-grid{grid-template-columns:1fr}
+  .hero{padding:60px 0}
+  .hero h1{font-size:34px}
+  .mock-wrap{margin-top:40px}
+  .mock{max-width:100%}
+  .hero-stats{gap:20px}
+  .tpl-grid{grid-template-columns:1fr}
+  .tpl-page-grid{grid-template-columns:1fr}
+  .foot-grid{grid-template-columns:1fr}
+  .form-row{grid-template-columns:1fr}
+  .pv-top{flex-direction:column;gap:14px;align-items:flex-start}
+}
+.logo-img{height:64px;width:auto;object-fit:contain}
+</style>
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar">
+  <div class="container nav-inner">
+    <a href="#home" class="brand" onclick="showPage('home')">
+      <img src="logo.png" alt="CVNova logo" class="logo-img">
+      CV<em>Nova</em>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#home" onclick="showPage('home')">Home</a>
+      <a href="#templates" onclick="showPage('templates')">Templates</a>
+      <a href="#editor" onclick="showPage('editor')">CV Builder</a>
+      <a href="#features" onclick="showPage('home');goTo('features')">Features</a>
+      <a href="#pricing" onclick="showPage('home');goTo('pricing')">Pricing</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#editor" class="btn btn-gold btn-sm" onclick="showPage('editor')">Start Free</a>
+      <button class="burger menu-btn" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- ================= PAGE: HOME ================= -->
+<div class="page active" id="page-home">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="badge"><span class="dot"></span> Trusted by 2M+ job seekers</span>
+        <h1>Build a <span class="hl">Professional CV<svg viewBox="0 0 200 12" preserveAspectRatio="none"><path d="M2 9 Q 50 2 100 7 T 198 5" stroke="#0070D0" stroke-width="4" fill="none" stroke-linecap="round"/></svg></span> in Minutes</h1>
+        <p class="lead">Pick a beautiful template, fill in your details, and download a ready-to-send CV. No design skills needed — perfect for local &amp; international jobs.</p>
+        <div class="hero-cta">
+          <a href="#editor" class="btn btn-gold" onclick="showPage('editor')">Create My CV <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a href="#templates" class="btn btn-ghost" onclick="showPage('templates')">Browse Templates</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat"><b>2M+</b><span>CVs created</span></div>
+          <div class="stat"><b>25+</b><span>Pro templates</span></div>
+          <div class="stat"><b>100%</b><span>Free to start</span></div>
+        </div>
+      </div>
+      <div class="mock-wrap">
+        <div class="mock-glow"></div>
+        <div class="mock">
+          <div class="m-name">Tharindu Silva</div>
+          <div class="m-title">Senior Software Engineer</div>
+          <div class="m-line"></div>
+          <div class="m-sec">Profile</div>
+          <p style="font-size:12px;color:#6b6350">Results-driven engineer with 6+ years building scalable web apps...</p>
+          <div class="m-sec">Experience</div>
+          <div class="m-row"><b>Senior Software Engineer</b><span>2021 – Present</span></div>
+          <div class="m-row"><span style="color:#0060C0">TechNova Solutions</span><span></span></div>
+          <div class="m-row"><b>Software Engineer</b><span>2018 – 2021</span></div>
+          <div class="m-row"><span style="color:#0060C0">Inforox (Pvt) Ltd</span><span></span></div>
+          <div class="m-sec">Skills</div>
+          <div><span class="m-pill">Laravel</span><span class="m-pill">PHP</span><span class="m-pill">Vue.js</span><span class="m-pill">MySQL</span></div>
+        </div>
+        <div class="mock-badge b1">✓ ATS Friendly</div>
+        <div class="mock-badge b2">⬇ Download PDF</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- STRIP -->
+  <div class="strip"><span>LARAVEL POWERED</span><span>ATS FRIENDLY</span><span>PDF READY</span><span>100% FREE</span></div>
+
+  <!-- FEATURES -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="sec-head">
+        <span class="kicker">Why CVNova</span>
+        <h2>Everything you need to land your dream job</h2>
+        <p>From professional templates to instant PDF download — we make your CV stand out.</p>
+      </div>
+      <div class="features">
+        <div class="feature">
+          <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18M9 21V9"/></svg></div>
+          <h3>25+ Premium Templates</h3>
+          <p>Classic, modern, minimal &amp; creative designs built by professionals for every industry.</p>
+        </div>
+        <div class="feature">
+          <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3l2.7 5.6 6.3.8-4.6 4.3 1.2 6.2-5.6-3-5.6 3 1.2-6.2L3 9.4l6.3-.8z"/></svg></div>
+          <h3>ATS-Friendly Layouts</h3>
+          <p>Clean structures that pass applicant tracking systems and reach real human recruiters.</p>
+        </div>
+        <div class="feature">
+          <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg></div>
+          <h3>Instant PDF Download</h3>
+          <p>One click and your CV is ready as a pixel-perfect PDF, Word export &amp; shareable link.</p>
+        </div>
+        <div class="feature">
+          <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 21s-7-4.6-9.3-9A5.4 5.4 0 0 1 12 6.7 5.4 5.4 0 0 1 21.3 12c-2.3 4.4-9.3 9-9.3 9z"/></svg></div>
+          <h3>Live Real-Time Preview</h3>
+          <p>See your CV update instantly as you type — no refresh, no guessing, no surprises.</p>
+        </div>
+        <div class="feature">
+          <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2a7 7 0 0 0-4 12.7V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.3A7 7 0 0 0 12 2z"/><path d="M9 21h6"/></svg></div>
+          <h3>Smart Suggestions</h3>
+          <p>Filler text and achievement examples to help you write experience sections that impress.</p>
+        </div>
+        <div class="feature">
+          <div class="f-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 12v8H4v-8M2 7l10-4 10 4M6 7v6a3 3 0 0 0 6 0V7M12 7v6a3 3 0 0 0 6 0V7"/></svg></div>
+          <h3>Built for Sri Lanka</h3>
+          <p>Templates tuned for local employers, banks, IT firms &amp; government applications.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEMPLATES PREVIEW -->
+  <section class="section alt" id="templates-preview">
+    <div class="container">
+      <div class="sec-head">
+        <span class="kicker">Templates</span>
+        <h2>Choose a template that fits your career</h2>
+        <p>Every template is ATS-friendly and beautifully designed. Preview live in the builder.</p>
+      </div>
+      <div class="tpl-grid" id="tplGrid"></div>
+      <div style="text-align:center;margin-top:44px">
+        <a href="#templates" class="btn btn-gold" onclick="showPage('templates')">View All Templates</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS (DARK) -->
+  <section class="section dark">
+    <div class="container">
+      <div class="sec-head">
+        <span class="kicker">How it works</span>
+        <h2>Your dream CV in 3 easy steps</h2>
+        <p>No sign-up required to start. Create, preview, download — done.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="num">1</div>
+          <h3>Pick a Template</h3>
+          <p>Choose from 25+ professionally designed templates for any industry.</p>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <h3>Fill Your Details</h3>
+          <p>Type your info once. Watch the live preview build your CV in real time.</p>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <h3>Download PDF</h3>
+          <p>Export a perfect PDF in one click and send it to employers right away.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="section alt">
+    <div class="container">
+      <div class="sec-head">
+        <span class="kicker">Success stories</span>
+        <h2>Loved by job seekers in Sri Lanka &amp; beyond</h2>
+      </div>
+      <div class="testi-grid">
+        <div class="testi">
+          <div class="stars">★★★★★</div>
+          <p>"Got my first banking job interview within a week of using CVNova. The classic template made my CV look so professional!"</p>
+          <div class="who"><div class="av">NS</div><div><b>Nimasha Silva</b><span>Graduate, Colombo</span></div></div>
+        </div>
+        <div class="testi">
+          <div class="stars">★★★★★</div>
+          <p>"As a developer I hate writing CVs. The live preview and PDF download saved me hours. My new CV landed 3 interviews in 2 weeks."</p>
+          <div class="who"><div class="av">KP</div><div><b>Kasun Perera</b><span>Software Engineer, Kandy</span></div></div>
+        </div>
+        <div class="testi">
+          <div class="stars">★★★★★</div>
+          <p>"The modern template with the dark sidebar looks stunning. Recruiters keep complimenting my CV. Highly recommended!"</p>
+          <div class="who"><div class="av">AR</div><div><b>Amaya Rathnayake</b><span>Marketing Executive, Galle</span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="section dark" id="pricing">
+    <div class="container">
+      <div class="sec-head">
+        <span class="kicker">Pricing</span>
+        <h2>Simple plans for every stage</h2>
+        <p>Start free forever. Upgrade only when you need more.</p>
+      </div>
+      <div class="price-grid">
+        <div class="price-card">
+          <div class="p-name">Free</div>
+          <div class="p-price">Rs 0<small>/forever</small></div>
+          <div class="p-desc">Perfect for students &amp; quick CVs</div>
+          <ul>
+            <li>3 classic templates</li>
+            <li>1 page CV</li>
+            <li>PDF download</li>
+            <li>No watermark</li>
+          </ul>
+          <a href="#editor" class="btn btn-ghost" style="border-color:#6E87A5;color:#0090F0" onclick="showPage('editor')">Start Free</a>
+        </div>
+        <div class="price-card featured">
+          <div class="pop">Most Popular</div>
+          <div class="p-name">Pro</div>
+          <div class="p-price">Rs 1,500<small>/month</small></div>
+          <div class="p-desc">For serious job seekers</div>
+          <ul>
+            <li>All 25+ premium templates</li>
+            <li>Unlimited pages</li>
+            <li>Word (.docx) export</li>
+            <li>ATS score checker</li>
+            <li>Shareable online link</li>
+          </ul>
+          <a href="#editor" class="btn btn-gold" onclick="showPage('editor')">Go Pro</a>
+        </div>
+        <div class="price-card">
+          <div class="p-name">Career</div>
+          <div class="p-price">Rs 9,000<small>/year</small></div>
+          <div class="p-desc">Best value for job hunting</div>
+          <ul>
+            <li>Everything in Pro</li>
+            <li>Cover letter builder</li>
+            <li>LinkedIn profile tips</li>
+            <li>Priority support</li>
+          </ul>
+          <a href="#editor" class="btn btn-ghost" style="border-color:#6E87A5;color:#0090F0" onclick="showPage('editor')">Get Career</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= PAGE: TEMPLATES ================= -->
+<div class="page" id="page-templates">
+  <div class="tpl-hero">
+    <div class="container">
+      <h1>Beautiful <em>Templates</em> for Every Career</h1>
+      <p>ATS-friendly designs tuned for both local and international job markets. All templates are free to preview and download.</p>
+    </div>
+  </div>
+  <section class="section" style="background:var(--cream)">
+    <div class="container">
+      <div class="tpl-grid tpl-page-grid" id="tplGridAll"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= PAGE: EDITOR ================= -->
+<div class="page" id="page-editor">
+  <div class="editor">
+    <!-- FORM -->
+    <div class="ed-form">
+      <h2>CV Builder</h2>
+      <p class="sub">Fill your details — preview updates live on the right.</p>
+
+      <div class="form-sec">Personal Details</div>
+      <div class="form-group"><label>Full Name <span class="req">*</span></label><input id="f-name" value="Tharindu Silva" placeholder="e.g. Tharindu Silva"></div>
+      <div class="form-group"><label>Job Title <span class="req">*</span></label><input id="f-title" value="Senior Software Engineer" placeholder="e.g. Senior Software Engineer"></div>
+      <div class="form-row">
+        <div class="form-group"><label>Email</label><input id="f-email" value="tharindu.silva@email.com" placeholder="you@email.com"></div>
+        <div class="form-group"><label>Phone</label><input id="f-phone" value="+94 77 123 4567" placeholder="+94 7X XXX XXXX"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Location</label><input id="f-location" value="Colombo, Sri Lanka" placeholder="City, Country"></div>
+        <div class="form-group"><label>Website</label><input id="f-website" value="tharindusilva.dev" placeholder="yourwebsite.com"></div>
+      </div>
+      <div class="form-group"><label>Professional Summary</label><textarea id="f-summary">Results-driven software engineer with 7+ years of experience building scalable web applications. Proven track record of leading development teams, improving performance by 40% and delivering projects on time. Experienced in agile delivery, code reviews, automated testing and cloud infrastructure on AWS. Passionate about clean code, system design and mentoring junior developers.</textarea></div>
+
+      <div class="form-sec">Skills <span style="font-weight:600;color:var(--muted);font-size:11px">(press Enter to add)</span></div>
+      <div class="skill-tags" id="skillTags"></div>
+      <div class="skill-input-row">
+        <input id="f-skill" placeholder="Add a skill e.g. Laravel">
+        <button class="btn btn-gold btn-sm" onclick="addSkill()">Add</button>
+      </div>
+
+      <div class="form-sec">Work Experience</div>
+      <div id="expList"></div>
+      <button class="add-btn" onclick="addExp()">+ Add Experience</button>
+
+      <div class="form-sec">Education</div>
+      <div id="eduList"></div>
+      <button class="add-btn" onclick="addEdu()">+ Add Education</button>
+
+      <div class="form-sec">Languages</div>
+      <div id="langList"></div>
+      <button class="add-btn" onclick="addLang()">+ Add Language</button>
+
+      <div class="ed-actions">
+        <button class="btn btn-gold" onclick="downloadPDF()">⬇ Download PDF</button>
+        <button class="btn btn-ghost" onclick="resetForm()">Reset</button>
+      </div>
+    </div>
+
+    <!-- PREVIEW -->
+    <div class="ed-preview">
+      <div class="pv-top">
+        <h3>👁 Live Preview</h3>
+        <div class="pv-tpls" id="pvTpls"></div>
+        <div class="pv-controls">
+          <span class="pv-fit" id="fitInd"></span>
+          <select class="pv-zoom-select" id="pvZoom" onchange="zoomCv(this.value)">
+            <option value="auto">Fit width</option>
+            <option value="1">100%</option>
+            <option value="0.8">80%</option>
+            <option value="0.6">60%</option>
+          </select>
+        </div>
+      </div>
+      <div class="pv-zoom" id="cvZoomWrap"><div class="pv-page" id="cvPage"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#home" class="brand" onclick="showPage('home')">
+          <img src="logo.png" alt="CVNova logo" class="logo-img">
+          CV<em>Nova</em>
+        </a>
+        <p>The fastest way to build a professional CV in Sri Lanka. Free templates, live preview and one-click PDF download.</p>
+        <div class="social">
+          <a href="#" title="Facebook"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M14 9h3V6h-3c-2 0-3.5 1.5-3.5 3.5V12H8v3h2.5v6H14v-6h2.5l.5-3H14v-1.5c0-.3.2-.5.5-.5z"/></svg></a>
+          <a href="#" title="LinkedIn"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M6.5 8.5H3.5V21h3V8.5zM5 7a1.8 1.8 0 1 0 0-3.6A1.8 1.8 0 0 0 5 7zM21 21h-3v-6.2c0-1.6-.6-2.8-2.1-2.8-1.1 0-1.8.8-2.1 1.5-.1.3-.1.6-.1 1V21h-3V8.5h3v1.7c.4-.7 1.4-1.7 3.2-1.7 2.4 0 4.1 1.5 4.1 4.9V21z"/></svg></a>
+          <a href="#" title="TikTok"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 3c.4 2 1.7 3.4 3.9 3.6v3c-1.5 0-2.8-.4-3.9-1.2v5.9c0 3.7-2.6 6.2-6 6.2A6 6 0 0 1 4.6 14a6 6 0 0 1 7.6-5.8v3.2a2.9 2.9 0 0 0-4.3 2.6 2.9 2.9 0 0 0 5.8.7V3h2.9z"/></svg></a>
+          <a href="#" title="YouTube"><svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4a2.8 2.8 0 0 0-2 2C2 8.9 2 12 2 12s0 3.1.4 4.8a2.8 2.8 0 0 0 2 2c1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4a2.8 2.8 0 0 0 2-2c.4-1.7.4-4.8.4-4.8s0-3.1-.4-4.8zM10 15.2V8.8L15.5 12 10 15.2z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <a href="#templates" onclick="showPage('templates')">CV Templates</a>
+        <a href="#editor" onclick="showPage('editor')">CV Builder</a>
+        <a href="#editor" onclick="showPage('editor')">Cover Letter Builder</a>
+        <a href="#pricing" onclick="showPage('home');goTo('pricing')">Pricing</a>
+      </div>
+      <div>
+        <h4>Resources</h4>
+        <a href="#features" onclick="showPage('home');goTo('features')">Features</a>
+        <a href="#">Career Tips</a>
+        <a href="#">CV Guide</a>
+        <a href="#">Interview Training</a>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <a href="#">About Us</a>
+        <a href="#">Contact</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2025 CVNova — All rights reserved. Made with 💙 in Sri Lanka.</span>
+      <span>Powered by Laravel 13</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ================= SAMPLE DATA ================= */
+const SAMPLE = {
+  name:"Tharindu Silva", title:"Senior Software Engineer",
+  email:"tharindu.silva@email.com", phone:"+94 77 123 4567",
+  location:"Colombo, Sri Lanka", website:"tharindusilva.dev", linkedin:"linkedin.com/in/tharindusilva",
+  summary:"Results-driven software engineer with 7+ years of experience building scalable web applications. Proven track record of leading development teams, improving performance by 40% and delivering projects on time. Experienced in agile delivery, code reviews, automated testing and cloud infrastructure on AWS. Passionate about clean code, system design and mentoring junior developers.",
+  skills:["PHP","Laravel","JavaScript","Vue.js","MySQL","PostgreSQL","Docker","AWS","REST APIs","Git","Redis","CI/CD"],
+  experience:[
+    {position:"Senior Software Engineer",company:"TechNova Solutions",start:"2021",end:"Present",desc:"Leading a team of 5 engineers building a SaaS platform used by 50k+ users. Cut page load times by 40%, introduced CI/CD pipelines and mentored 3 junior developers."},
+    {position:"Software Engineer",company:"Inforox (Pvt) Ltd",start:"2018",end:"2021",desc:"Developed REST APIs and admin dashboards in Laravel & Vue. Automated monthly reporting, saving 20+ hours of manual work per month and reducing errors by 30%."},
+    {position:"Junior Developer",company:"WebSys Lanka",start:"2016",end:"2018",desc:"Built and maintained client websites with PHP and MySQL. Collaborated closely with designers to ship pixel-perfect, responsive pages for 15+ clients."}
+  ],
+  education:[
+    {degree:"BSc (Hons) Computer Science",school:"University of Colombo",year:"2012 – 2016",desc:"Second Upper Class Honours. Specialized in Software Engineering & Distributed Systems."},
+    {degree:"Higher Diploma in Information Technology",school:"SLIIT",year:"2010 – 2012",desc:"Completed with Distinction. Covering programming fundamentals, databases and networking."}
+  ],
+  languages:[{name:"Sinhala",level:"Native"},{name:"English",level:"Fluent"}]
+};
+
+const TEMPLATES = [
+  {id:"t1", name:"Classic", tag:"ATS Friendly"},
+  {id:"t2", name:"Modern", tag:"Popular"},
+  {id:"t3", name:"Minimal", tag:"Clean"},
+  {id:"t4", name:"Creative", tag:"Stand Out"},
+  {id:"t5", name:"Elegant", tag:"Premium"}
+];
+let currentTpl = "t2";
+
+/* ================= PAGE ROUTING ================= */
+function showPage(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+name).classList.add('active');
+  window.scrollTo(0,0);
+}
+function goTo(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
+/* prevent file:// fragment navigation (Chrome treats file origins as unique) */
+document.addEventListener('click',function(e){
+  var a=e.target.closest('a[href^="#"]');
+  if(a)e.preventDefault();
+});
+function toggleMenu(){document.getElementById('navLinks').classList.toggle('open')}
+
+/* ================= CV TEMPLATE RENDERERS ================= */
+function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+function contactLine(d){
+  const parts=[];
+  if(d.email) parts.push('✉ '+esc(d.email));
+  if(d.phone) parts.push('☎ '+esc(d.phone));
+  if(d.location) parts.push('📍 '+esc(d.location));
+  if(d.website) parts.push('🌐 '+esc(d.website));
+  if(d.linkedin) parts.push('in '+esc(d.linkedin));
+  return parts.join('</span><span>');
+}
+
+function skillsHTML(d){return d.skills.map(s=>'<span class="cv-skill">'+esc(s)+'</span>').join('')}
+
+function expHTML(d){
+  return d.experience.map(e=>`
+    <div class="exp-item">
+      <div class="j">${esc(e.position)}</div>
+      <div class="c">${esc(e.company)} <span class="d">${esc(e.start)} — ${esc(e.end)}</span></div>
+      <p>${esc(e.desc)}</p>
+    </div>`).join('');
+}
+function eduHTML(d){
+  return d.education.map(e=>`
+    <div class="exp-item">
+      <div class="j">${esc(e.degree)}</div>
+      <div class="c">${esc(e.school)} <span class="d">${esc(e.year)}</span></div>
+      ${e.desc?'<p>'+esc(e.desc)+'</p>':''}
+    </div>`).join('');
+}
+
+function tplClassic(d){return `
+  <div class="cv t1">
+    <div class="t1-head">
+      <div class="cv-name">${esc(d.name)}</div>
+      <div class="cv-title">${esc(d.title)}</div>
+      <div class="cv-contact"><span>${contactLine(d)}</span></div>
+    </div>
+    <div class="cv-sec"><div class="cv-sec-h">Profile</div><p>${esc(d.summary)}</p></div>
+    <div class="cv-sec"><div class="cv-sec-h">Experience</div><div class="exp">${expHTML(d)}</div></div>
+    <div class="cv-sec"><div class="cv-sec-h">Education</div><div class="exp">${eduHTML(d)}</div></div>
+    <div class="cv-sec"><div class="cv-sec-h">Skills</div><div>${skillsHTML(d)}</div></div>
+  </div>`}
+
+function tplModern(d){
+  const levels=['Expert','Advanced','Advanced','Proficient','Proficient'];
+  return `
+  <div class="cv t2">
+    <div class="side">
+      <div class="avatar">${esc((d.name||'?').split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase())}</div>
+      <h4>Contact</h4>
+      <div class="cnt">
+        <div>${esc(d.email||'')}</div><div>${esc(d.phone||'')}</div><div>${esc(d.location||'')}</div><div>${esc(d.website||'')}</div>
+      </div>
+      <h4>Skills</h4>
+      ${d.skills.map((s,i)=>`<div style="font-size:11px;margin-top:6px">${esc(s)}</div><div class="bar"><i style="width:${85 - (i%3)*15}%"></i></div>`).join('')}
+      <h4>Languages</h4>
+      ${d.languages.map(l=>`<div style="font-size:11.5px;margin-bottom:4px">${esc(l.name)} — ${esc(l.level)}</div>`).join('')}
+    </div>
+    <div class="main">
+      <div class="cv-name">${esc(d.name)}</div>
+      <div class="cv-title">${esc(d.title)}</div>
+      <div class="cv-sec"><div class="cv-sec-h">Profile</div><p>${esc(d.summary)}</p></div>
+      <div class="cv-sec"><div class="cv-sec-h">Experience</div><div class="exp">${expHTML(d)}</div></div>
+      <div class="cv-sec"><div class="cv-sec-h">Education</div><div class="exp">${eduHTML(d)}</div></div>
+    </div>
+  </div>`}
+
+function tplMinimal(d){return `
+  <div class="cv t3">
+    <div class="cv-name">${esc(d.name)}</div>
+    <div class="cv-title">${esc(d.title)}</div>
+    <div class="cv-contact"><span>${contactLine(d)}</span></div>
+    <div class="cv-sec"><div class="cv-sec-h">Profile</div><p>${esc(d.summary)}</p></div>
+    <div class="cv-sec"><div class="cv-sec-h">Experience</div><div class="exp">${expHTML(d)}</div></div>
+    <div class="cv-sec"><div class="cv-sec-h">Education</div><div class="exp">${eduHTML(d)}</div></div>
+    <div class="cv-sec"><div class="cv-sec-h">Skills</div><div>${skillsHTML(d)}</div></div>
+  </div>`}
+
+function tplCreative(d){return `
+  <div class="cv t4">
+    <div class="t4-band">
+      <div class="cv-name">${esc(d.name)}</div>
+      <div class="cv-title">${esc(d.title)}</div>
+      <div class="cv-contact"><span>${contactLine(d)}</span></div>
+    </div>
+    <div class="t4-body">
+      <div class="t4-left">
+        <div class="cv-sec"><div class="cv-sec-h">Profile</div><p>${esc(d.summary)}</p></div>
+        <div class="cv-sec"><div class="cv-sec-h">Experience</div><div class="exp">${expHTML(d)}</div></div>
+        <div class="cv-sec"><div class="cv-sec-h">Education</div><div class="exp">${eduHTML(d)}</div></div>
+      </div>
+      <div class="t4-right">
+        <h4>Skills</h4><div>${skillsHTML(d)}</div>
+        <h4>Languages</h4>
+        ${d.languages.map(l=>`<div style="font-size:12px;margin-bottom:4px">${esc(l.name)} — ${esc(l.level)}</div>`).join('')}
+      </div>
+    </div>
+  </div>`}
+
+function tplElegant(d){
+  const ini=esc((d.name||'?').split(' ').map(w=>w[0]).slice(0,2).join(''));
+  return `
+  <div class="cv t5">
+    <div class="mono">${ini}</div>
+    <div class="cv-name">${esc(d.name)}</div>
+    <div class="cv-title">${esc(d.title)}</div>
+    <div class="t5-rule"></div>
+    <div class="cv-contact"><span>${contactLine(d)}</span></div>
+    <div class="cv-sec"><div class="cv-sec-h">Profile</div><p style="max-width:520px;margin:0 auto">${esc(d.summary)}</p></div>
+    <div class="cv-sec"><div class="cv-sec-h">Experience</div><div class="exp">${expHTML(d)}</div></div>
+    <div class="cv-sec"><div class="cv-sec-h">Education</div><div class="exp">${eduHTML(d)}</div></div>
+    <div class="cv-sec"><div class="cv-sec-h">Skills</div><div>${skillsHTML(d)}</div></div>
+  </div>`}
+
+const RENDERERS={t1:tplClassic,t2:tplModern,t3:tplMinimal,t4:tplCreative,t5:tplElegant};
+
+/* ================= EDITOR STATE ================= */
+function collect(){
+  return {
+    name:g('f-name'),title:g('f-title'),email:g('f-email'),phone:g('f-phone'),
+    location:g('f-location'),website:g('f-website'),summary:g('f-summary'),
+    skills:[...document.querySelectorAll('#skillTags .skill-tag')].map(t=>t.dataset.s),
+    experience:[...document.querySelectorAll('#expList .rep')].map(r=>({
+      position:r.querySelector('.e-pos').value,company:r.querySelector('.e-com').value,
+      start:r.querySelector('.e-st').value,end:r.querySelector('.e-en').value,desc:r.querySelector('.e-de').value})),
+    education:[...document.querySelectorAll('#eduList .rep')].map(r=>({
+      degree:r.querySelector('.d-deg').value,school:r.querySelector('.d-sch').value,
+      year:r.querySelector('.d-yr').value,desc:r.querySelector('.d-de').value})),
+    languages:[...document.querySelectorAll('#langList .rep')].map(r=>({
+      name:r.querySelector('.l-na').value,level:r.querySelector('.l-le').value}))
+  };
+}
+function g(id){return document.getElementById(id).value.trim()}
+
+function render(){
+  const d=collect();
+  const page=document.getElementById('cvPage');
+  if(!d.name&&!d.title){page.innerHTML='<div class="empty-cv">👈 Fill in your details on the left to see your CV here</div>';setTimeout(checkFit,60);return;}
+  page.innerHTML=RENDERERS[currentTpl](d);
+  setTimeout(checkFit,60);
+}
+
+/* ================= A4 FIT CHECK + ZOOM ================= */
+function checkFit(){
+  const page=document.getElementById('cvPage');
+  const ind=document.getElementById('fitInd');
+  if(!page||!ind)return;
+  const h=page.scrollHeight;
+  if(h<=1123){ind.textContent='✓ Fits A4 · 1 page';ind.className='pv-fit fit-ok';}
+  else{ind.textContent='⚠ '+Math.ceil(h/1123)+' pages — trim content';ind.className='pv-fit fit-warn';}
+}
+function zoomCv(v){
+  const wrap=document.getElementById('cvZoomWrap');
+  if(!wrap)return;
+  if(v==='auto'){
+    const cont=document.querySelector('.ed-preview');
+    const w=(cont?cont.clientWidth:800)-64;
+    wrap.style.zoom=Math.min(1,(w/794).toFixed(3));
+  }else wrap.style.zoom=v;
+}
+
+/* ================= SKILLS ================= */
+function skillTagHTML(s){return `<span class="skill-tag" data-s="${esc(s)}">${esc(s)}<button onclick="removeSkill(this)">×</button></span>`}
+function addSkill(){
+  const i=document.getElementById('f-skill');
+  const v=i.value.trim();
+  if(!v)return;
+  if(![...document.querySelectorAll('#skillTags .skill-tag')].some(t=>t.dataset.s===v))
+    document.getElementById('skillTags').insertAdjacentHTML('beforeend',skillTagHTML(v));
+  i.value='';
+}
+function removeSkill(b){b.closest('.skill-tag').remove();render()}
+document.getElementById('f-skill').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addSkill();render()}});
+
+/* ================= REPEATABLE SECTIONS ================= */
+function addExp(e){
+  const x=e||{position:'',company:'',start:'',end:'',desc:''};
+  const el=document.createElement('div');el.className='rep';
+  el.innerHTML=`
+    <button class="del" onclick="this.closest('.rep').remove();render()">×</button>
+    <div class="form-group"><label>Position</label><input class="e-pos" value="${esc(x.position)}" placeholder="e.g. Software Engineer"></div>
+    <div class="form-group"><label>Company</label><input class="e-com" value="${esc(x.company)}" placeholder="e.g. TechNova Solutions"></div>
+    <div class="form-row"><div class="form-group"><label>Start</label><input class="e-st" value="${esc(x.start)}" placeholder="2018"></div>
+    <div class="form-group"><label>End</label><input class="e-en" value="${esc(x.end)}" placeholder="2021 / Present"></div></div>
+    <div class="form-group"><label>Description</label><textarea class="e-de" placeholder="Key achievements...">${esc(x.desc)}</textarea></div>`;
+  document.getElementById('expList').appendChild(el);
+}
+function addEdu(x){
+  x=x||{degree:'',school:'',year:'',desc:''};
+  const el=document.createElement('div');el.className='rep';
+  el.innerHTML=`
+    <button class="del" onclick="this.closest('.rep').remove();render()">×</button>
+    <div class="form-group"><label>Degree / Qualification</label><input class="d-deg" value="${esc(x.degree)}" placeholder="e.g. BSc (Hons) Computer Science"></div>
+    <div class="form-group"><label>School / University</label><input class="d-sch" value="${esc(x.school)}" placeholder="e.g. University of Colombo"></div>
+    <div class="form-group"><label>Year</label><input class="d-yr" value="${esc(x.year)}" placeholder="2012 – 2016"></div>
+    <div class="form-group"><label>Details</label><textarea class="d-de" placeholder="Grade, specialisation...">${esc(x.desc)}</textarea></div>`;
+  document.getElementById('eduList').appendChild(el);
+}
+function addLang(x){
+  x=x||{name:'',level:''};
+  const el=document.createElement('div');el.className='rep';
+  el.innerHTML=`
+    <button class="del" onclick="this.closest('.rep').remove();render()">×</button>
+    <div class="form-row">
+      <div class="form-group"><label>Language</label><input class="l-na" value="${esc(x.name)}" placeholder="e.g. Sinhala"></div>
+      <div class="form-group"><label>Level</label><input class="l-le" value="${esc(x.level)}" placeholder="e.g. Native / Fluent"></div>
+    </div>`;
+  document.getElementById('langList').appendChild(el);
+}
+
+/* ================= TEMPLATE PICKER ================= */
+function buildTplPicker(){
+  const wrap=document.getElementById('pvTpls');
+  wrap.innerHTML=TEMPLATES.map(t=>`<button class="pv-tpl${t.id===currentTpl?' active':''}" onclick="selectTpl('${t.id}')">${t.name}</button>`).join('');
+}
+function selectTpl(id){currentTpl=id;buildTplPicker();render()}
+
+/* ================= CARD PREVIEWS (scaled) ================= */
+function tplShot(t){
+  return `<div class="tpl-shot"><div class="scale" style="width:420px;transform:scale(${420/430})"><div style="width:420px;min-height:520px">${RENDERERS[t.id](SAMPLE)}</div></div></div>`;
+}
+function tplCard(t,big){
+  return `<div class="tpl-card${big?' big':''}">
+    <a href="#editor" onclick="selectTpl('${t.id}');showPage('editor')" title="Use ${t.name} template">${tplShot(t)}</a>
+    <div class="tpl-meta">
+      <div class="t-name">${t.name}</div>
+      <div class="t-tag">${t.tag}</div>
+      <a href="#editor" class="use" onclick="selectTpl('${t.id}');showPage('editor')">Use template →</a>
+    </div>
+  </div>`;
+}
+function buildGrids(){
+  document.getElementById('tplGrid').innerHTML=TEMPLATES.slice(0,3).map(t=>tplCard(t)).join('');
+  document.getElementById('tplGridAll').innerHTML=TEMPLATES.map(t=>tplCard(t,true)).join('');
+}
+
+/* ================= INIT ================= */
+function seed(){
+  SAMPLE.skills.forEach(s=>document.getElementById('skillTags').insertAdjacentHTML('beforeend',skillTagHTML(s)));
+  SAMPLE.experience.forEach(addExp);
+  SAMPLE.education.forEach(addEdu);
+  SAMPLE.languages.forEach(addLang);
+}
+document.addEventListener('input',e=>{if(e.target.closest('.ed-form'))render()});
+function downloadPDF(){document.querySelector('.pv-page').classList.add('print-zone');window.print();setTimeout(()=>document.querySelector('.pv-page').classList.remove('print-zone'),500)}
+function resetForm(){
+  if(!confirm('Reset all fields to sample data?'))return;
+  ['f-name','f-title','f-email','f-phone','f-location','f-website','f-summary'].forEach((id,i)=>{
+    const vals=['','','','','','',''];
+    const map={0:'f-name',1:'f-title',2:'f-email',3:'f-phone',4:'f-location',5:'f-website',6:'f-summary'};
+    document.getElementById(map[i]).value=SAMPLE[map[i].replace('f-','').replace('name','name').replace('title','title').replace('email','email').replace('phone','phone').replace('location','location').replace('website','website').replace('summary','summary')]||'';
+  });
+  document.getElementById('skillTags').innerHTML='';SAMPLE.skills.forEach(s=>document.getElementById('skillTags').insertAdjacentHTML('beforeend',skillTagHTML(s)));
+  document.getElementById('expList').innerHTML='';SAMPLE.experience.forEach(addExp);
+  document.getElementById('eduList').innerHTML='';SAMPLE.education.forEach(addEdu);
+  document.getElementById('langList').innerHTML='';SAMPLE.languages.forEach(addLang);
+  render();
+}
+seed();buildTplPicker();buildGrids();render();
+zoomCv('auto');
+window.addEventListener('resize',function(){var z=document.getElementById('pvZoom');if(z&&z.value==='auto')zoomCv('auto')});
+/* handle initial hash */
+if(location.hash.match(/^(#home|#templates|#editor)$/))showPage(location.hash.slice(1));
+</script>
+</body>
+</html>
