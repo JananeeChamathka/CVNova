@@ -1,58 +1,102 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<div align="center">
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# CVNova ✨
 
-## About Laravel
+**Build a Professional CV in Minutes — Free CV Builder for Sri Lanka 🇱🇰**
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+![PHP](https://img.shields.io/badge/PHP-8.3-0070D0?style=flat&logo=php&logoColor=white)
+![Laravel](https://img.shields.io/badge/Laravel-13-003060?style=flat&logo=laravel&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-0B2A4D?style=flat&logo=sqlite&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-0060C0?style=flat)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+<img src="public/img/logo.png" alt="CVNova Logo" width="280">
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+</div>
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 🚀 What is CVNova?
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+CVNova is a **CV builder web application** that lets anyone create a professional CV in minutes. Pick a beautiful template, fill in your details, and download a ready-to-send **A4 PDF** — no design skills needed!
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+Inspired by platforms like CVMe.lk, built with **Laravel** and a clean **dark blue theme** derived from the brand logo.
 
-## Agentic Development
+## ✨ Features
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+| Feature | Description |
+|---|---|
+| 🎨 **5 Premium Templates** | Classic, Modern, Minimal, Creative, Elegant |
+| 👁 **Live Preview** | CV updates in real-time as you type |
+| 📄 **A4 Balanced** | Exact A4 sizing (794×1123px), fit indicator |
+| ⬇ **One-click PDF** | Print-optimized, exact 210mm×297mm output |
+| 🔍 **Zoom Control** | Fit-width / 100% / 80% / 60% preview |
+| 🏷 **Dynamic Sections** | Skills, Experience, Education, Languages |
+| 📱 **Responsive** | Works on desktop, tablet & mobile |
+| 🖼 **Brand Logo** | Custom transparent PNG logo + favicon |
+
+## 🖥 Templates
+
+| Template | Style | Best For |
+|---|---|---|
+| **Classic** | Serif, ATS-friendly | Banks, Government, Traditional jobs |
+| **Modern** | Dark sidebar + skill bars | IT, Engineering |
+| **Minimal** | Clean whitespace | Design, Startups |
+| **Creative** | Gold band header | Marketing, Creative roles |
+| **Elegant** | Monogram, premium serif | Executive, Management |
+
+## 🛠 Tech Stack
+
+- **Backend:** Laravel 13, PHP 8.3
+- **Database:** SQLite (default, zero setup)
+- **Frontend:** Blade templates, vanilla JS, custom CSS (no build step needed)
+- **Assets:** Plain CSS/JS in `public/` (no Vite/npm required to run)
+
+## 📦 Installation
 
 ```bash
-composer require laravel/boost --dev
+# 1. Install dependencies
+composer install
 
-php artisan boost:install
+# 2. Set up environment
+cp .env.example .env
+php artisan key:generate
+
+# 3. Create SQLite database & migrate
+touch database/database.sqlite
+php artisan migrate
+
+# 4. Start the server
+php artisan serve
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Then open **http://127.0.0.1:8000** 🎉
 
-## Contributing
+## 🧭 Routes
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+| Route | Description |
+|---|---|
+| `/` | Landing page (hero, features, templates, pricing) |
+| `/templates` | Template gallery |
+| `/editor` | CV Builder with live A4 preview |
+| `/editor/{template}` | Open builder with a specific template (t1–t5) |
 
-## Code of Conduct
+## 📁 Project Structure
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```
+├── app/Http/Controllers/   # Home, Templates, Editor controllers
+├── resources/views/        # Blade layouts, home, templates, editor
+├── public/
+│   ├── css/app.css         # Full design system (dark blue theme)
+│   ├── js/app.js           # Editor logic, CV renderers, A4 fit check
+│   └── img/logo.png        # Brand logo (transparent)
+├── index.html              # Standalone preview (double-click to open)
+└── routes/web.php
+```
 
-## Security Vulnerabilities
+## 🖼 Standalone Preview
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+`index.html` in the project root is a **fully standalone version** — open it directly in any browser to preview the landing page, templates and editor without running PHP.
 
-## License
+## 📄 License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+MIT — free to use, modify and share. Made with 💙 in Sri Lanka.
